@@ -146,5 +146,32 @@ You can use `ivy-decorator-original' to return the original string."
       (abbreviate-file-name (file-name-directory file))
     nil))
 
+;;;;; counsel-describe-*
+
+(defun ivy-decorator-function-doc (symbol)
+  "Return the first line of the documentation of a function SYMBOL."
+  (when-let ((s (documentation symbol)))
+    (car (split-string s "\n"))))
+
+(defun ivy-decorator-variable-doc (symbol)
+  "Return the first line of the variable documentation of SYMBOL."
+  (when-let ((s (documentation-property symbol 'variable-documentation)))
+    (car (split-string s "\n"))))
+
+;;;;; Face
+
+(defun ivy-decorator-face-name (symbol)
+  "Given a face SYMBOL, propertize it with the face."
+  (propertize ivy-decorator-original-candidate
+              'face symbol))
+
+(defun ivy-decorator-face-doc (symbol)
+  "Return the face documentation of SYMBOL."
+  (let ((doc (face-documentation symbol)))
+    (propertize (if doc
+                    (car (split-string doc "\n"))
+                  "This face doesn't have documentation.")
+                'face symbol)))
+
 (provide 'ivy-decorator)
 ;;; ivy-decorator.el ends here
