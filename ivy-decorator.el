@@ -137,9 +137,11 @@ You can use `ivy-decorator-original' to return the original string."
   "Return the buffer name of a buffer.")
 
 (defun ivy-decorator-buffer-major-mode (buffer)
+  "Return the major mode of BUFFER as a string."
   (symbol-name (buffer-local-value 'major-mode buffer)))
 
 (defun ivy-decorator-buffer-directory (buffer)
+  "Return the directory of BUFFER if it is a file buffer."
   (if-let ((file (buffer-file-name buffer)))
       (abbreviate-file-name (file-name-directory file))
     nil))
