@@ -35,7 +35,7 @@
 
 (defconst ivy-decorator-prefix "ivy-decorator-")
 
-(defgroup 'ivy-decorator nil
+(defgroup ivy-decorator nil
   "Help you define Ivy display transformers."
   :group 'ivy)
 
