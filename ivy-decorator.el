@@ -4,7 +4,7 @@
 
 ;; Author: Akira Komamura <akira.komamura@gmail.com>
 ;; Version: 0.1
-;; Package-Requires: ((emacs "25.1"))
+;; Package-Requires: ((emacs "25.1") (ivy "0.11"))
 ;; URL: https://github.com/akirak/ivy-decorator
 
 ;; This file is not part of GNU Emacs.
