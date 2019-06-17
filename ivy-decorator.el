@@ -39,13 +39,21 @@
   "Help you define Ivy display transformers."
   :group 'ivy)
 
+;;;; Custom variables
+
 (defcustom ivy-decorator-field-separator "  "
   "String used to separate between fields in Ivy entries."
   :type 'string
   :group 'ivy-decorator)
 
+;;;; Faces
+
+;;;; Variables
+
 (defvar ivy-decorator-original-candidate nil
   "Variable for temporarily storing the original candidate.")
+
+;;;; Macros
 
 ;;;###autoload
 (defmacro ivy-decorator-set (caller &rest columns)
