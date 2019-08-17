@@ -46,6 +46,11 @@
   :type 'string
   :group 'ivy-decorator)
 
+(defcustom ivy-decorator-width 80
+  "Width of contents."
+  :type '(choice number symbol function)
+  :group 'ivy-decorator)
+
 ;;;; Faces
 
 ;;;; Variables
@@ -116,8 +121,22 @@ You can use `ivy-decorator-original' to return the original string."
                                  (propertize s 'face (car rest))
                                s))
                    into result
-                   finally return (string-join result
-                                               ivy-decorator-field-separator)))))))
+                   finally return (ivy-decorator--trim-entire-entry
+                                   (string-join result
+                                                ivy-decorator-field-separator))))))))
+
+(defun ivy-decorator--trim-entire-entry (string)
+  "Trim the STRING of a single entry."
+  (let ((width (cond
+                ((numberp ivy-decorator-width)
+                 ivy-decorator-width)
+                ((fboundp ivy-decorator-width)
+                 (funcall ivy-decorator-width))
+                ((and (symbolp ivy-decorator-width)
+                      ivy-decorator-width)
+                 (symbol-value ivy-decorator-width)))))
+    (when width
+      (ivy--truncate-string string width))))
 
 (defun ivy-decorator--compile-columns (columns)
   "Transform each format definition in COLUMNS."
