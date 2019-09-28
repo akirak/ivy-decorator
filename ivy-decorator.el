@@ -141,8 +141,18 @@ You can use `ivy-decorator-original' to return the original string."
 
 ;;;;; Buffers
 
-(defalias 'ivy-decorator-buffer-name 'buffer-name
-  "Return the buffer name of a buffer.")
+(defun ivy-decorator-buffer-name (buffer)
+  "Return the buffer name of a buffer."
+  (let ((str ivy-decorator-original-candidate))
+    (if-let ((filename (buffer-file-name buffer)))
+        (cond
+         ((and (not (ignore-errors (file-remote-p filename)))
+               (not (verify-visited-file-modtime buffer)))
+          (ivy-append-face str 'ivy-modified-outside-buffer))
+         ((buffer-modified-p buffer)
+          (ivy-append-face str 'ivy-modified-buffer))
+         (t str))
+      str)))
 
 (defun ivy-decorator-buffer-major-mode (buffer)
   "Return the major mode of BUFFER as a string."
