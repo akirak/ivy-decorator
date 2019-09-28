@@ -32,6 +32,7 @@
 ;;; Code:
 
 (require 'cl-lib)
+(declare-function 'all-the-icons-icon-for-buffer "all-the-icons")
 
 (defconst ivy-decorator-prefix "ivy-decorator-")
 
@@ -172,6 +173,21 @@ You can use `ivy-decorator-original' to return the original string."
   (if-let ((file (buffer-file-name buffer)))
       (abbreviate-file-name (file-name-directory file))
     nil))
+
+(defun ivy-decorator-modified (buffer)
+  (if (buffer-modified-p buffer)
+      "*"
+    " "))
+
+(defun ivy-decorator-indirect (buffer)
+  (if (buffer-base-buffer buffer)
+      "I"
+    " "))
+
+(defun ivy-decorator-buffer-icon (buffer)
+  "Return the icon for BUFFER."
+  (with-current-buffer buffer
+    (all-the-icons-icon-for-buffer)))
 
 ;;;;; counsel-describe-*
 
