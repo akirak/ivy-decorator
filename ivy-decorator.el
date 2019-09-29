@@ -52,6 +52,13 @@
   :group 'ivy-decorator)
 
 ;;;; Faces
+(defface ivy-decorator-command-name
+  '((default :inherit font-lock-function-name-face))
+  "Face for command names.")
+
+(defface ivy-decorator-command-key
+  '((default :inherit font-lock-string-face))
+  "Face for command keys.")
 
 ;;;; Variables
 
@@ -184,6 +191,27 @@ You can use `ivy-decorator-original' to return the original string."
   "Return the first line of the variable documentation of SYMBOL."
   (when-let ((s (documentation-property symbol 'variable-documentation)))
     (car (split-string s "\n"))))
+
+;;;;;  counsel-M-x
+
+(defun ivy-decorator-command-name-and-key (symbol)
+  "Return the name and the first keybinding of a command SYMBOL."
+  (concat (propertize (symbol-name symbol)
+                      'face 'ivy-decorator-command-name)
+          (if-let ((key (ivy-decorator-command-key symbol)))
+              (propertize (format " [%s]" key)
+                          'face 'ivy-decorator-command-key)
+            "")))
+
+(defun ivy-decorator-command-key (symbol)
+  "Return the first keybinding to a command SYMBOL."
+  (thread-last (current-active-maps)
+    (where-is-internal symbol)
+    (cl-remove-if (lambda (v)
+                    (pcase v
+                      (`[,s] (symbolp s))
+                      (_ (eql 'menu-bar (seq-elt v 0))))))
+    (cl-some #'key-description)))
 
 ;;;;; Face
 
