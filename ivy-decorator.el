@@ -48,11 +48,11 @@
 
 ;;;; Faces
 (defface ivy-decorator-command-name
-  nil
+  '((default :inherit font-lock-function-name-face))
   "Face for command names.")
 
 (defface ivy-decorator-command-key
-  nil
+  '((default :inherit font-lock-string-face))
   "Face for command keys.")
 
 ;;;; Variables
